@@ -136,14 +136,14 @@ export default function PricingSection() {
                 
                 <div className="mt-6 flex items-baseline gap-1">
                   <span className="text-5xl font-black text-white font-mono">$0.00</span>
-                  <span className="text-[11px] font-bold text-zinc-550">/ month</span>
+                  <span className="text-[11px] font-bold text-zinc-400">/ month</span>
                 </div>
                 <p className="text-xs text-zinc-400 mt-4 leading-relaxed font-semibold">
                   Standard access to evaluate key voice engines and sandbox interfaces.
                 </p>
 
                 <div className="mt-8 border-t border-white/5 pt-6">
-                  <span className="text-[9px] font-black text-zinc-450 uppercase tracking-[0.2em] font-mono block mb-4">Included Parameters:</span>
+                  <span className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.2em] font-mono block mb-4">Included Parameters:</span>
                   <ul className="space-y-4 text-[11px] font-bold uppercase tracking-wider text-zinc-300">
                     <li className="flex items-center justify-between py-1.5 border-b border-white/[0.03]">
                       <span className="text-zinc-500 font-medium font-mona-sans normal-case">AI Voice Practice Engine</span>
@@ -159,7 +159,7 @@ export default function PricingSection() {
                     </li>
                     <li className="flex items-center justify-between py-1.5 border-b border-white/[0.03]">
                       <span className="text-zinc-500 font-medium font-mona-sans normal-case">Real-Time HTML Editor</span>
-                      <span className="text-zinc-650">─</span>
+                      <span className="text-zinc-600">—</span>
                     </li>
                     <li className="flex items-center justify-between py-1.5 border-b border-white/[0.03]">
                       <span className="text-zinc-500 font-medium font-mona-sans normal-case">Vocal Filler Word Tracker</span>
@@ -167,18 +167,18 @@ export default function PricingSection() {
                     </li>
                     <li className="flex items-center justify-between py-1.5 border-b border-white/[0.03]">
                       <span className="text-zinc-500 font-medium font-mona-sans normal-case">Advanced System Design Engine</span>
-                      <span className="text-zinc-650">─</span>
+                      <span className="text-zinc-600">—</span>
                     </li>
                     <li className="flex items-center justify-between py-1.5 border-b border-white/[0.03]">
                       <span className="text-zinc-500 font-medium font-mona-sans normal-case">Priority AI Queue Access</span>
-                      <span className="text-zinc-650">─</span>
+                      <span className="text-zinc-600">—</span>
                     </li>
                   </ul>
                 </div>
               </div>
 
               <Button asChild variant="outline" className="mt-8 h-12 border-white/10 text-zinc-300 hover:text-white bg-zinc-900/20 hover:bg-zinc-900/60 rounded-full w-full text-xs font-black uppercase tracking-widest cursor-pointer transition-all duration-200">
-                <Link href={getAuthRedirectUrl("sign-in")}>Start Free Session</Link>
+                <Link href={getAuthRedirectUrl("sign-up")}>Start Free Session</Link>
               </Button>
             </div>
           </motion.div>
@@ -233,7 +233,7 @@ export default function PricingSection() {
                   <ul className="space-y-4 text-[11px] font-bold uppercase tracking-wider text-white">
                     <li className="flex items-center justify-between py-1.5 border-b border-white/[0.06]">
                       <span className="text-zinc-400 font-medium font-mona-sans normal-case">AI Voice Practice Engine</span>
-                      <span className="text-white">Advanced</span>
+                      <span className="text-white">Ultra-Low Latency</span>
                     </li>
                     <li className="flex items-center justify-between py-1.5 border-b border-white/[0.06]">
                       <span className="text-zinc-400 font-medium font-mona-sans normal-case">Speech Pacing Telemetry</span>
@@ -241,7 +241,7 @@ export default function PricingSection() {
                     </li>
                     <li className="flex items-center justify-between py-1.5 border-b border-white/[0.06]">
                       <span className="text-zinc-400 font-medium font-mona-sans normal-case">Mock Evaluation Sessions</span>
-                      <span className="text-white">70 Sessions</span>
+                      <span className="text-emerald-400">Unlimited Practice</span>
                     </li>
                     <li className="flex items-center justify-between py-1.5 border-b border-white/[0.06]">
                       <span className="text-zinc-400 font-medium font-mona-sans normal-case">Real-Time HTML Editor</span>
@@ -253,7 +253,7 @@ export default function PricingSection() {
                     </li>
                     <li className="flex items-center justify-between py-1.5 border-b border-white/[0.06]">
                       <span className="text-zinc-400 font-medium font-mona-sans normal-case">Advanced System Design Engine</span>
-                      <span className="text-zinc-650">─</span>
+                      <span className="text-zinc-600">—</span>
                     </li>
                     <li className="flex items-center justify-between py-1.5 border-b border-white/[0.06]">
                       <span className="text-zinc-400 font-medium font-mona-sans normal-case">Priority AI Queue Access</span>
@@ -307,11 +307,11 @@ export default function PricingSection() {
                 </p>
 
                 <div className="mt-8 border-t border-white/5 pt-6">
-                  <span className="text-[9px] font-black text-zinc-455 uppercase tracking-[0.2em] font-mono block mb-4">Included Parameters:</span>
+                  <span className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.2em] font-mono block mb-4">Included Parameters:</span>
                   <ul className="space-y-4 text-[11px] font-bold uppercase tracking-wider text-zinc-300">
                     <li className="flex items-center justify-between py-1.5 border-b border-white/[0.03]">
                       <span className="text-zinc-500 font-medium font-mona-sans normal-case">AI Voice Practice Engine</span>
-                      <span className="text-white">Ultra-Low</span>
+                      <span className="text-white">Ultra-Low Latency (&lt;150ms)</span>
                     </li>
                     <li className="flex items-center justify-between py-1.5 border-b border-white/[0.03]">
                       <span className="text-zinc-500 font-medium font-mona-sans normal-case">Speech Pacing Telemetry</span>
@@ -342,7 +342,7 @@ export default function PricingSection() {
               </div>
 
               <Button asChild variant="outline" className="mt-8 h-12 border-white/10 text-zinc-300 hover:text-white bg-zinc-900/20 hover:bg-zinc-900/60 rounded-full w-full text-xs font-black uppercase tracking-widest cursor-pointer transition-all duration-200">
-                <Link href={getAuthRedirectUrl("sign-up")}>Get Started Pro</Link>
+                <Link href={getAuthRedirectUrl("sign-up")}>Upgrade to Elite</Link>
               </Button>
             </div>
           </motion.div>

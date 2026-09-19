@@ -65,15 +65,25 @@ export default function FeedbackForm() {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
     try {
-      await addDoc(collection(db, "feedback"), {
-        ...values,
-        createdAt: new Date(),
-      });
-      toast.success("Thanks for your feedback!");
-      form.reset({ ...values, message: "" });
+      try {
+        await addDoc(collection(db, "feedback"), {
+          ...values,
+          createdAt: new Date(),
+        });
+      } catch (firestoreErr) {
+        // Fallback to server API route if client Firestore rejects unauthenticated writes
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        });
+        if (!res.ok) throw firestoreErr;
+      }
+      toast.success("Thanks for your feedback! We will get back to you shortly.");
+      form.reset({ name: values.name, email: values.email, type: undefined, message: "" });
     } catch (error) {
       console.error("Feedback error:", error);
-      toast.error("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again or email support@mockrithm.me.");
     } finally {
       setIsSubmitting(false);
     }

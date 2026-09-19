@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { getAuthRedirectUrl } from "@/lib/utils/auth";
 
 export default function AwwwardsHero() {
   const [videoSrc, setVideoSrc] = useState<string | null>(null);
@@ -20,20 +22,14 @@ export default function AwwwardsHero() {
     }
   }, []);
 
-  const handleJourneyBegin = () => {
-    if (typeof window !== "undefined" && window.location.hostname.includes("localhost")) {
-      window.location.href = "/sign-up";
-    } else {
-      window.location.href = "https://accounts.mockrithm.me/sign-up";
-    }
-  };
+  const ctaHref = getAuthRedirectUrl("sign-up");
 
   return (
     <section
       id="awwwards-hero"
       className="relative w-full h-screen flex flex-col overflow-hidden select-none bg-zinc-950"
     >
-      {/* Fullscreen Looping Background Video */}
+      {/* Fullscreen Looping Background Video with rich cosmic gradient fallback */}
       {videoSrc ? (
         <video
           autoPlay
@@ -45,15 +41,22 @@ export default function AwwwardsHero() {
           src={videoSrc}
         />
       ) : (
-        <div className="fixed inset-0 w-full h-full bg-zinc-950 z-0" />
+        <div className="fixed inset-0 w-full h-full bg-gradient-to-b from-zinc-950 via-[#070b14] to-zinc-950 z-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[radial-gradient(circle,rgba(79,124,255,0.06)_0%,rgba(0,0,0,0)_70%)] pointer-events-none" />
+        </div>
       )}
 
-
       {/* Dark overlay for text readability */}
-      <div className="fixed inset-0 bg-black/30 z-[1]" />
+      <div className="fixed inset-0 bg-black/35 z-[1]" />
 
       {/* Hero Content Section — vertically centered in remaining space */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 max-w-5xl mx-auto w-full">
+        {/* Eyebrow Badge */}
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/10 bg-zinc-900/60 backdrop-blur-md text-[10px] font-mono font-bold tracking-[0.2em] text-zinc-300 uppercase mb-6 shadow-xl animate-fade-rise">
+          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+          <span>AI-POWERED TECHNICAL MOCK INTERVIEWS</span>
+        </div>
+
         {/* Headline */}
         <h1
           className="text-5xl sm:text-7xl md:text-[5.5rem] leading-[1] tracking-[-2px] font-normal text-white animate-fade-rise"
@@ -67,21 +70,21 @@ export default function AwwwardsHero() {
 
         {/* Subtext */}
         <p
-          className="text-white/60 text-base sm:text-lg max-w-2xl mt-6 leading-relaxed animate-fade-rise-delay"
+          className="text-white/70 text-base sm:text-lg max-w-2xl mt-6 leading-relaxed animate-fade-rise-delay"
           style={{ fontFamily: "var(--font-inter), 'Inter', sans-serif" }}
         >
           We build tools for sharp developers, bold engineering leaders, and quiet builders.
           Amid the noise, we create private spaces for focused practice and real skill growth.
         </p>
 
-        {/* Big CTA */}
-        <button
-          onClick={handleJourneyBegin}
-          className="liquid-glass rounded-full px-12 py-4 text-base text-white font-medium mt-10 hover:scale-[1.03] transition-all duration-300 cursor-pointer shadow-xl active:scale-95 border-none outline-none animate-fade-rise-delay-2"
+        {/* Semantic Link CTA */}
+        <Link
+          href={ctaHref}
+          className="liquid-glass rounded-full px-12 py-4 text-base text-white font-medium mt-10 hover:scale-[1.03] transition-all duration-300 cursor-pointer shadow-xl active:scale-95 border-none outline-none animate-fade-rise-delay-2 inline-flex items-center justify-center"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           Begin Journey
-        </button>
+        </Link>
       </div>
 
       {/* Scroll indicator pinned to bottom */}

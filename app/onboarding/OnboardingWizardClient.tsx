@@ -39,9 +39,9 @@ const ResumePreview = ({ data, title }: { data: any; title: string }) => {
       {/* Basics Info */}
       <div className="flex flex-col gap-1">
         <span className="text-base font-bold text-white">{basics.name || "Candidate Name"}</span>
-        <span className="text-xs text-zinc-350 font-semibold uppercase tracking-wider">{basics.label || "Professional"}</span>
+        <span className="text-xs text-zinc-400 font-semibold uppercase tracking-wider">{basics.label || "Professional"}</span>
         {basics.summary && (
-          <p className="text-xs text-zinc-350 leading-relaxed mt-2 bg-white/[0.02] p-3 rounded-xl border border-white/5 font-medium italic">
+          <p className="text-xs text-zinc-400 leading-relaxed mt-2 bg-white/[0.02] p-3 rounded-xl border border-white/5 font-medium italic">
             "{basics.summary}"
           </p>
         )}
