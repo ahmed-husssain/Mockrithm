@@ -20,8 +20,8 @@ export async function POST(request: Request) {
 
     const userTier = (user as any).tier || "freemium";
     const model = userTier === "pro" || userTier === "premium" 
-      ? "llama-3.3-70b-versatile" 
-      : "llama-3.1-8b-instant";
+      ? "openai/gpt-oss-120b" 
+      : "openai/gpt-oss-20b";
 
     const promptContent = `You are an expert ATS (Applicant Tracking System) optimization bot and recruiter.
 Analyze the following resume text against the target job description.

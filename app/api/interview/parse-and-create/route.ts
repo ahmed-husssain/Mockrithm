@@ -13,7 +13,7 @@ async function groqChatCompletion(messages: any[], jsonMode = false): Promise<st
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: process.env.GROQ_LLM_MODEL || "llama-3.3-70b-versatile",
+        model: process.env.GROQ_LLM_MODEL || "openai/gpt-oss-120b",
         messages,
         response_format: jsonMode ? { type: "json_object" } : undefined
       })

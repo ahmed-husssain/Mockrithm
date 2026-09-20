@@ -5,7 +5,7 @@ const readline = require('readline');
 // Load environment variables
 const envPath = path.join(__dirname, '.env');
 let apiKey = '';
-let defaultModel = 'llama-3.3-70b-versatile';
+let defaultModel = 'openai/gpt-oss-120b';
 
 try {
   const envContent = fs.readFileSync(envPath, 'utf8');

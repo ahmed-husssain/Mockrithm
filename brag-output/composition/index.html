@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mockrithm — Next-Gen AI Interview Sandbox</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background-color: #000000;
+      color: #ffffff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      position: relative;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #composition {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      background: #000000;
+    }
+
+    /* Minimalist Technical Grid & Scanning Beam */
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 32px 32px, 96px 96px, 96px 96px;
+      z-index: 1;
+      opacity: 0.8;
+    }
+
+    .ambient-glow {
+      position: absolute;
+      width: 900px;
+      height: 550px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.07) 0%, rgba(0, 0, 0, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Fixed Minimalist Navbar */
+    .top-header {
+      position: absolute;
+      top: 44px;
+      left: 64px;
+      right: 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-symbol {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: #09090b;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+
+    .brand-symbol::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), transparent 60%);
+      pointer-events: none;
+    }
+
+    .brand-name {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: #ffffff;
+    }
+
+    .nav-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      background: rgba(18, 18, 20, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #a1a1aa;
+    }
+
+    .emerald-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+    }
+
+    /* Scene Base Container */
+    .scene {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 64px;
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* ============================================================ */
+    /* SCENE 1: KINETIC HOOK (0s - 3.5s)                            */
+    /* ============================================================ */
+    .hook-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      color: #10b981;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      margin-bottom: 28px;
+    }
+
+    .kinetic-title-wrap {
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .kinetic-title-line {
+      font-size: 86px;
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      text-align: center;
+      color: #ffffff;
+      display: block;
+    }
+
+    .kinetic-title-line.accent {
+      color: #71717a;
+      font-weight: 600;
+    }
+
+    .hook-descriptor {
+      font-size: 20px;
+      color: #a1a1aa;
+      max-width: 680px;
+      text-align: center;
+      line-height: 1.6;
+      margin-top: 24px;
+      font-weight: 400;
+    }
+
+    /* Motion Waveform Bars */
+    .waveform-stage {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 72px;
+      margin-top: 44px;
+      padding: 12px 24px;
+      background: rgba(18, 18, 22, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 9999px;
+    }
+
+    .sound-bar {
+      width: 3px;
+      height: 10px;
+      background: #3f3f46;
+      border-radius: 4px;
+      transition: height 0.1s ease;
+    }
+
+    .sound-bar.active {
+      background: #10b981;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+    }
+
+    /* ============================================================ */
+    /* SCENE 2: VOICE TELEMETRY (3.5s - 8.5s)                       */
+    /* ============================================================ */
+    .telemetry-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
+      max-width: 1380px;
+      width: 100%;
+      align-items: center;
+    }
+
+    .glass-card {
+      background: linear-gradient(180deg, rgba(20, 20, 24, 0.85) 0%, rgba(10, 10, 12, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 20%;
+      right: 20%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    }
+
+    .mic-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .mic-ring-wrap {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mic-radar {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+    }
+
+    .mic-core {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #18181b;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mic-core svg {
+      width: 22px;
+      height: 22px;
+      color: #10b981;
+    }
+
+    .voice-heading {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    .voice-subheading {
+      font-size: 13px;
+      color: #a1a1aa;
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 4px;
+    }
+
+    .transcript-terminal {
+      background: #09090b;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 26px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .transcript-tag {
+      font-size: 11px;
+      color: #10b981;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 16px;
+      background: #10b981;
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+
+    /* Metric Stack */
+    .metrics-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .metric-row {
+      background: linear-gradient(180deg, rgba(24, 24, 28, 0.8) 0%, rgba(12, 12, 14, 0.9) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 22px 26px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .metric-title {
+      font-size: 13px;
+      color: #a1a1aa;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .metric-big-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 34px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.03em;
+    }
+
+    .metric-pill-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #10b981;
+    }
+
+    /* ============================================================ */
+    /* SCENE 3: CODING SANDBOX (8.5s - 14.0s)                       */
+    /* ============================================================ */
+    .ide-frame {
+      width: 1260px;
+      background: #09090b;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.75);
+      position: relative;
+    }
+
+    .ide-topbar {
+      background: #121215;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .ide-lights {
+      display: flex;
+      gap: 7px;
+    }
+
+    .ide-light {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .light-close { background: #ef4444; }
+    .light-min { background: #f59e0b; }
+    .light-max { background: #10b981; }
+
+    .ide-tab-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      color: #e4e4e7;
+      background: #1c1c20;
+      padding: 5px 14px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .ide-code-area {
+      padding: 32px 36px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #e4e4e7;
+    }
+
+    .syn-kwd { color: #f43f5e; font-weight: 600; }
+    .syn-fn { color: #38bdf8; }
+    .syn-typ { color: #f59e0b; }
+    .syn-com { color: #71717a; font-style: italic; }
+
+    .ide-bottom-bar {
+      background: #0c0c0e;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+    }
+
+    .test-result-indicator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #10b981;
+      font-weight: 600;
+    }
+
+    .badge-complexity {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #d4d4d8;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* ============================================================ */
+    /* SCENE 4: READINESS SCORECARD (14.0s - 17.5s)                 */
+    /* ============================================================ */
+    .scorecard-box {
+      background: linear-gradient(180deg, rgba(20, 20, 24, 0.9) 0%, rgba(9, 9, 11, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 52px 72px;
+      display: flex;
+      gap: 72px;
+      align-items: center;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7);
+      position: relative;
+    }
+
+    .scorecard-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 20%;
+      right: 20%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.4), transparent);
+    }
+
+    .circle-wrap {
+      position: relative;
+      width: 190px;
+      height: 190px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .circle-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .circle-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.06);
+      stroke-width: 10;
+    }
+
+    .circle-meter {
+      fill: none;
+      stroke: #10b981;
+      stroke-width: 10;
+      stroke-linecap: round;
+      stroke-dasharray: 534;
+      stroke-dashoffset: 534;
+      filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.4));
+    }
+
+    .score-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 52px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1;
+    }
+
+    .score-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: #10b981;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    .bars-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 440px;
+    }
+
+    .bar-item-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 600;
+      color: #a1a1aa;
+      margin-bottom: 6px;
+    }
+
+    .bar-trough {
+      width: 100%;
+      height: 7px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .bar-progress {
+      height: 100%;
+      background: #10b981;
+      border-radius: 9999px;
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+
+    /* ============================================================ */
+    /* SCENE 5: OUTRO & BRAND (17.5s - 20.0s)                       */
+    /* ============================================================ */
+    .outro-badge {
+      width: 76px;
+      height: 76px;
+      border-radius: 20px;
+      background: #0e0e11;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(16, 185, 129, 0.2);
+      margin-bottom: 24px;
+    }
+
+    .outro-badge svg {
+      width: 38px;
+      height: 38px;
+      color: #10b981;
+    }
+
+    .outro-brand-text {
+      font-size: 72px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .outro-claim {
+      font-size: 26px;
+      color: #a1a1aa;
+      font-weight: 400;
+      margin-bottom: 38px;
+    }
+
+    .outro-cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 44px;
+      background: #ffffff;
+      color: #000000;
+      font-size: 22px;
+      font-weight: 800;
+      border-radius: 9999px;
+      box-shadow: 0 0 50px rgba(16, 185, 129, 0.35), 0 12px 36px rgba(0, 0, 0, 0.8);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: -0.01em;
+    }
+
+    .cta-arrow {
+      transition: transform 0.2s ease;
+    }
+  </style>
+</head>
+<body>
+  <div id="composition" data-composition-id="mockrithm-intro" data-width="1920" data-height="1080" data-duration="20" data-fps="60">
+    <!-- Minimalist Background Grid & Ambient Emerald Aura -->
+    <div class="bg-grid"></div>
+    <div class="ambient-glow"></div>
+
+    <!-- Persistent Minimalist Header -->
+    <header class="top-header">
+      <div class="brand-mark">
+        <div class="brand-symbol">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="4 17 10 11 4 5"></polyline>
+            <line x1="12" y1="19" x2="20" y2="19"></line>
+          </svg>
+        </div>
+        <span class="brand-name">Mockrithm</span>
+      </div>
+      <div class="nav-status-badge">
+        <span class="emerald-dot"></span>
+        <span>AI Mock Interview Simulator</span>
+      </div>
+    </header>
+
+    <!-- Audio Channels -->
+    <audio id="bg-music" data-start="0" data-duration="20" data-track-index="10" data-volume="0.32" src="assets/music/happy-beats-business-moves-vol-1-by-ende-dot-app.mp3"></audio>
+    <audio id="sfx-reveal" data-start="3.5" data-track-index="11" data-volume="0.6" src="assets/sfx/impact/impactSoft_medium_001.ogg"></audio>
+    <audio id="sfx-code" data-start="8.5" data-track-index="12" data-volume="0.5" src="assets/sfx/interface/click_001.ogg"></audio>
+    <audio id="sfx-success" data-start="14.0" data-track-index="13" data-volume="0.75" src="assets/sfx/impact/impactBell_heavy_000.ogg"></audio>
+
+    <!-- ============================================================ -->
+    <!-- SCENE 1: KINETIC HOOK (0s - 3.5s)                            -->
+    <!-- ============================================================ -->
+    <section class="scene clip" id="scene-1" data-start="0" data-duration="3.5">
+      <div class="hook-badge">THE INTERVIEW PLAYGROUND</div>
+      <div class="kinetic-title-wrap">
+        <div class="kinetic-title-line">Top tech interviews aren't won on luck.</div>
+      </div>
+      <div class="kinetic-title-wrap">
+        <div class="kinetic-title-line accent">They're mastered in the sandbox.</div>
+      </div>
+      <p class="hook-descriptor">
+        Real-time vocal cadence telemetry, live dynamic code execution, and ATS calibration.
+      </p>
+      <div class="waveform-stage">
+        <div class="sound-bar active"></div>
+        <div class="sound-bar active"></div>
+        <div class="sound-bar active"></div>
+        <div class="sound-bar active"></div>
+        <div class="sound-bar active"></div>
+        <div class="sound-bar active"></div>
+        <div class="sound-bar active"></div>
+        <div class="sound-bar active"></div>
+        <div class="sound-bar"></div>
+        <div class="sound-bar"></div>
+        <div class="sound-bar"></div>
+        <div class="sound-bar"></div>
+        <div class="sound-bar"></div>
+        <div class="sound-bar"></div>
+        <div class="sound-bar active"></div>
+        <div class="sound-bar active"></div>
+        <div class="sound-bar active"></div>
+        <div class="sound-bar active"></div>
+        <div class="sound-bar"></div>
+        <div class="sound-bar"></div>
+        <div class="sound-bar"></div>
+        <div class="sound-bar"></div>
+        <div class="sound-bar active"></div>
+        <div class="sound-bar active"></div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SCENE 2: VOICE TELEMETRY (3.5s - 8.5s)                       -->
+    <!-- ============================================================ -->
+    <section class="scene clip" id="scene-2" data-start="3.5" data-duration="5.0">
+      <div class="telemetry-layout">
+        <div class="glass-card left-telemetry">
+          <div class="mic-header">
+            <div class="mic-ring-wrap">
+              <div class="mic-radar"></div>
+              <div class="mic-core">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="2" width="6" height="12" rx="3"></rect>
+                  <path d="M5 10v2a7 7 0 0 0 14 0v-2"></path>
+                  <line x1="12" y1="19" x2="12" y2="23"></line>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <div class="voice-heading">Conversational AI Engine</div>
+              <div class="voice-subheading">Neural VAD · Sub-50ms Speech Telemetry</div>
+            </div>
+          </div>
+          <div class="transcript-terminal">
+            <div class="transcript-tag">Candidate Speech (STAR Model)</div>
+            <span class="transcript-typed">"We isolated database replication lag with zero user downtime, decreasing tail latency by 42%."</span><span class="typing-cursor"></span>
+          </div>
+        </div>
+
+        <div class="metrics-stack">
+          <div class="metric-row">
+            <div>
+              <div class="metric-title">Speaking Pace</div>
+              <div class="metric-big-num"><span class="wpm-counter">135</span> <span style="font-size: 16px; color: #71717a;">WPM</span></div>
+            </div>
+            <div class="metric-pill-tag">Optimal Cadence</div>
+          </div>
+
+          <div class="metric-row">
+            <div>
+              <div class="metric-title">Vocal Filler Detection</div>
+              <div class="metric-big-num">0 <span style="font-size: 16px; color: #71717a;">Logged</span></div>
+            </div>
+            <div class="metric-pill-tag">Clear Delivery</div>
+          </div>
+
+          <div class="metric-row">
+            <div>
+              <div class="metric-title">STAR Method Adherence</div>
+              <div class="metric-big-num">94%</div>
+            </div>
+            <div class="metric-pill-tag">High Impact</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SCENE 3: CODING SANDBOX (8.5s - 14.0s)                       -->
+    <!-- ============================================================ -->
+    <section class="scene clip" id="scene-3" data-start="8.5" data-duration="5.5">
+      <div class="ide-frame">
+        <div class="ide-topbar">
+          <div class="ide-lights">
+            <div class="ide-light light-close"></div>
+            <div class="ide-light light-min"></div>
+            <div class="ide-light light-max"></div>
+          </div>
+          <div class="ide-tab-pill">distributed_cache.ts — Mockrithm Sandbox</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #71717a;">TypeScript 5.8 · Strict Mode</div>
+        </div>
+        <div class="ide-code-area">
+          <div><span class="syn-kwd">class</span> <span class="syn-fn">DistributedLRUCache</span>&lt;<span class="syn-typ">K</span>, <span class="syn-typ">V</span>&gt; {</div>
+          <div style="padding-left: 28px;"><span class="syn-kwd">private</span> capacity: <span class="syn-typ">number</span>;</div>
+          <div style="padding-left: 28px;"><span class="syn-kwd">private</span> map = <span class="syn-kwd">new</span> <span class="syn-fn">Map</span>&lt;<span class="syn-typ">K</span>, <span class="syn-typ">V</span>&gt;();</div>
+          <div style="padding-left: 28px; margin-top: 6px;"><span class="syn-fn">get</span>(key: <span class="syn-typ">K</span>): <span class="syn-typ">V</span> | <span class="syn-kwd">undefined</span> {</div>
+          <div style="padding-left: 56px;"><span class="syn-kwd">if</span> (!<span class="syn-kwd">this</span>.map.<span class="syn-fn">has</span>(key)) <span class="syn-kwd">return undefined</span>;</div>
+          <div style="padding-left: 56px;"><span class="syn-kwd">const</span> val = <span class="syn-kwd">this</span>.map.<span class="syn-fn">get</span>(key)!;</div>
+          <div style="padding-left: 56px;"><span class="syn-kwd">this</span>.map.<span class="syn-fn">delete</span>(key); <span class="syn-kwd">this</span>.map.<span class="syn-fn">set</span>(key, val); <span class="syn-com">// refresh node</span></div>
+          <div style="padding-left: 56px;"><span class="syn-kwd">return</span> val;</div>
+          <div style="padding-left: 28px;">}</div>
+          <div>}</div>
+        </div>
+        <div class="ide-bottom-bar">
+          <div class="test-result-indicator">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>All 14 Test Cases Passed · Runtime: 38ms</span>
+          </div>
+          <div class="badge-complexity">
+            <span style="color: #10b981;">●</span>
+            <span>O(1) Time Complexity · O(N) Space</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SCENE 4: READINESS SCORECARD (14.0s - 17.5s)                 -->
+    <!-- ============================================================ -->
+    <section class="scene clip" id="scene-4" data-start="14.0" data-duration="3.5">
+      <div class="scorecard-box">
+        <div class="circle-wrap">
+          <svg class="circle-svg" viewBox="0 0 190 190">
+            <circle class="circle-bg" cx="95" cy="95" r="85"></circle>
+            <circle class="circle-meter" cx="95" cy="95" r="85"></circle>
+          </svg>
+          <div class="score-count">96%</div>
+          <div class="score-label">FAANG Ready</div>
+        </div>
+
+        <div class="bars-wrap">
+          <div>
+            <div class="bar-item-header">
+              <span>System Architecture & Scaling</span>
+              <span style="color: #10b981; font-family: 'JetBrains Mono', monospace;">98%</span>
+            </div>
+            <div class="bar-trough">
+              <div class="bar-progress" style="width: 98%;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="bar-item-header">
+              <span>Data Structures & Algorithmic Rigor</span>
+              <span style="color: #10b981; font-family: 'JetBrains Mono', monospace;">95%</span>
+            </div>
+            <div class="bar-trough">
+              <div class="bar-progress" style="width: 95%;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="bar-item-header">
+              <span>Vocal Delivery & STAR Formulation</span>
+              <span style="color: #10b981; font-family: 'JetBrains Mono', monospace;">96%</span>
+            </div>
+            <div class="bar-trough">
+              <div class="bar-progress" style="width: 96%;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="bar-item-header">
+              <span>ATS Resume Screening Gate</span>
+              <span style="color: #ffffff; font-family: 'JetBrains Mono', monospace;">Passed (100%)</span>
+            </div>
+            <div class="bar-trough">
+              <div class="bar-progress" style="width: 100%; background: #ffffff;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SCENE 5: OUTRO & CALL TO ACTION (17.5s - 20.0s)             -->
+    <!-- ============================================================ -->
+    <section class="scene clip" id="scene-5" data-start="17.5" data-duration="2.5">
+      <div class="outro-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="4 17 10 11 4 5"></polyline>
+          <line x1="12" y1="19" x2="20" y2="19"></line>
+        </svg>
+      </div>
+      <div class="outro-brand-text">Mockrithm</div>
+      <div class="outro-claim">Where talent rises through the practice.</div>
+      <div class="outro-cta-button">
+        <span>mockrithm.me</span>
+        <span class="cta-arrow">→</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- Hyperframes GSAP Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script>
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({ paused: true });
+    window.__timelines["mockrithm-intro"] = tl;
+
+    // --- SCENE 1: KINETIC HOOK (0.0s - 3.5s) ---
+    tl.set("#scene-1", { opacity: 1, pointerEvents: "auto" }, 0.0)
+      .fromTo("#scene-1 .hook-badge", { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 0.1)
+      .fromTo("#scene-1 .kinetic-title-line", { opacity: 0, y: 40 }, { opacity: 1, y: 0, stagger: 0.15, duration: 0.6, ease: "power3.out" }, 0.2)
+      .fromTo("#scene-1 .hook-descriptor", { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.5)
+      .fromTo("#scene-1 .waveform-stage", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, 0.7)
+      .fromTo("#scene-1 .sound-bar", { scaleY: 0.2 }, { scaleY: 1, stagger: { each: 0.03, from: "center" }, duration: 0.5, ease: "power2.inOut" }, 0.8)
+      .to("#scene-1", { opacity: 0, scale: 1.03, duration: 0.4, ease: "power2.in" }, 3.1)
+      .set("#scene-1", { opacity: 0, pointerEvents: "none" }, 3.5);
+
+    // --- SCENE 2: VOICE TELEMETRY (3.5s - 8.5s) ---
+    tl.set("#scene-2", { opacity: 1, pointerEvents: "auto" }, 3.5)
+      .fromTo("#scene-2 .left-telemetry", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 3.6)
+      .fromTo("#scene-2 .mic-radar", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.8)" }, 3.7)
+      .fromTo("#scene-2 .transcript-terminal", { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 3.9)
+      .fromTo("#scene-2 .metric-row", { opacity: 0, x: 40 }, { opacity: 1, x: 0, stagger: 0.15, duration: 0.45, ease: "power3.out" }, 4.0)
+      .to("#scene-2", { opacity: 0, y: -20, duration: 0.4, ease: "power2.in" }, 8.1)
+      .set("#scene-2", { opacity: 0, pointerEvents: "none" }, 8.5);
+
+    // --- SCENE 3: CODING SANDBOX (8.5s - 14.0s) ---
+    tl.set("#scene-3", { opacity: 1, pointerEvents: "auto" }, 8.5)
+      .fromTo("#scene-3 .ide-frame", { opacity: 0, scale: 0.94, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: "power3.out" }, 8.6)
+      .fromTo("#scene-3 .ide-code-area", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.out" }, 8.9)
+      .fromTo("#scene-3 .ide-bottom-bar", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 9.2)
+      .fromTo("#scene-3 .badge-complexity", { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.8)" }, 9.4)
+      .to("#scene-3", { opacity: 0, scale: 1.03, duration: 0.4, ease: "power2.in" }, 13.6)
+      .set("#scene-3", { opacity: 0, pointerEvents: "none" }, 14.0);
+
+    // --- SCENE 4: READINESS SCORECARD (14.0s - 17.5s) ---
+    tl.set("#scene-4", { opacity: 1, pointerEvents: "auto" }, 14.0)
+      .fromTo("#scene-4 .scorecard-box", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, 14.1)
+      .fromTo("#scene-4 .circle-wrap", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.6)" }, 14.2)
+      .fromTo("#scene-4 .circle-meter", { strokeDashoffset: 534 }, { strokeDashoffset: 21, duration: 1.2, ease: "power2.out" }, 14.3)
+      .fromTo("#scene-4 .bar-item-header", { opacity: 0 }, { opacity: 1, stagger: 0.1, duration: 0.3, ease: "power1.out" }, 14.5)
+      .fromTo("#scene-4 .bar-progress", { scaleX: 0 }, { scaleX: 1, stagger: 0.12, duration: 0.7, ease: "power2.out" }, 14.6)
+      .to("#scene-4", { opacity: 0, scale: 1.02, duration: 0.4, ease: "power2.in" }, 17.1)
+      .set("#scene-4", { opacity: 0, pointerEvents: "none" }, 17.5);
+
+    // --- SCENE 5: OUTRO & BRAND (17.5s - 20.0s) ---
+    tl.set("#scene-5", { opacity: 1, pointerEvents: "auto" }, 17.5)
+      .fromTo("#scene-5 .outro-badge", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, 17.6)
+      .fromTo("#scene-5 .outro-brand-text", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 17.8)
+      .fromTo("#scene-5 .outro-claim", { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 18.0)
+      .fromTo("#scene-5 .outro-cta-button", { opacity: 0, scale: 0.88 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, 18.2)
+      .fromTo("#scene-5 .cta-arrow", { x: -4 }, { x: 4, repeat: 3, yoyo: true, duration: 0.3, ease: "power1.inOut" }, 18.5);
+  </script>
+</body>
+</html>

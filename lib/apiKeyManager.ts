@@ -152,31 +152,31 @@ class ApiKeyManager {
     const silence = Buffer.alloc(800, 128);
     const silentWav = Buffer.concat([silentHeader, silence]);
 
-    for (const keyInfo of this.keys) {
-      try {
-        // 1. Refresh chat completion limits
-        const chatResponse = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${keyInfo.key}`,
-          },
-          body: JSON.stringify({
-            model: "llama-3.1-8b-instant",
-            messages: [{ role: "user", content: "Hi" }],
-            max_tokens: 1
-          })
-        });
-        
-        if (chatResponse.ok) {
-          this.updateLimits(keyInfo.key, chatResponse.headers, false);
-        } else {
-          this.blockKey(keyInfo.key, 3600); // block invalid keys for 1 hour
-          continue;
-        }
+      for (const keyInfo of this.keys) {
+        try {
+          // 1. Refresh chat completion limits
+          const chatResponse = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${keyInfo.key}`,
+            },
+            body: JSON.stringify({
+              model: "openai/gpt-oss-20b",
+              messages: [{ role: "user", content: "Hi" }],
+              max_tokens: 1
+            })
+          });
+          
+          if (chatResponse.ok) {
+            this.updateLimits(keyInfo.key, chatResponse.headers, false);
+          } else {
+            this.blockKey(keyInfo.key, 3600); // block invalid keys for 1 hour
+            continue;
+          }
 
-        // 2. Refresh Whisper audio transcription limits
-        const audioFormData = new FormData();
+          // 2. Refresh Whisper audio transcription limits
+          const audioFormData = new FormData();
         const blob = new Blob([silentWav], { type: "audio/wav" });
         audioFormData.append("file", blob, "silent.wav");
         audioFormData.append("model", "whisper-large-v3-turbo");

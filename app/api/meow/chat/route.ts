@@ -28,15 +28,26 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    let model = body.model || process.env.GROQ_LLM_MODEL || "llama-3.3-70b-versatile";
+    let model = body.model || process.env.GROQ_LLM_MODEL || "openai/gpt-oss-120b";
     const userTier = (user as any).tier || "freemium";
+
+    // Map legacy or unsupported models to active replacements
+    const legacyModelMap: Record<string, string> = {
+      "llama-3.1-8b-instant": "openai/gpt-oss-20b",
+      "llama-3.3-70b-versatile": "openai/gpt-oss-120b",
+      "llama3-8b-8192": "openai/gpt-oss-20b",
+      "llama3-70b-8192": "openai/gpt-oss-120b",
+    };
+    if (legacyModelMap[model]) {
+      model = legacyModelMap[model];
+    }
 
     // Enforce model tier limits
     const isGenerateMode = (body.messages || []).some((m: any) => m.role === "system" && m.content.includes("configure their mock"));
     if (userTier === "freemium" && !isGenerateMode) {
-      model = "llama-3.1-8b-instant";
+      model = "openai/gpt-oss-20b";
     } else {
-      model = "llama-3.3-70b-versatile";
+      model = model || "openai/gpt-oss-120b";
     }
 
     console.log(`[DEBUG] Routing chat completion request to Groq API (${model})...`);

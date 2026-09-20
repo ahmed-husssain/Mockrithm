@@ -117,7 +117,7 @@ const Agent = ({
 
   // Meow Engine Configuration States
   const [selectedVoice, setSelectedVoice] = useState<string>("groq-autumn");
-  const [selectedModel, setSelectedModel] = useState<string>("llama-3.1-8b-instant");
+  const [selectedModel, setSelectedModel] = useState<string>("openai/gpt-oss-20b");
   const [showSettings, setShowSettings] = useState(false);
   const [settingsTab, setSettingsTab] = useState<"calibration" | "leaderboard">("calibration");
   const [selectedStt, setSelectedStt] = useState<"browser" | "whisper-v3" | "whisper-turbo">("whisper-turbo");
@@ -151,8 +151,8 @@ const Agent = ({
   useEffect(() => {
     const tier = userTier || "freemium";
     if (tier === "freemium") {
-      if (selectedModel !== "llama-3.1-8b-instant") {
-        setSelectedModel("llama-3.1-8b-instant");
+      if (selectedModel !== "openai/gpt-oss-20b") {
+        setSelectedModel("openai/gpt-oss-20b");
       }
       if (selectedStt !== "browser") {
         setSelectedStt("browser");
@@ -161,8 +161,8 @@ const Agent = ({
         setSelectedVoice(selectedLanguage === "ar-SA" ? "groq-noura" : "groq-autumn");
       }
     } else if (tier === "premium") {
-      if (selectedModel === "z-ai/glm-4.7-flash-free") {
-        setSelectedModel("llama-3.3-70b-versatile");
+      if (selectedModel === "llama-3.1-8b-instant" || selectedModel === "llama-3.3-70b-versatile" || selectedModel === "openai/gpt-oss-20b") {
+        setSelectedModel("openai/gpt-oss-120b");
       }
       if (selectedStt === "whisper-v3") {
         setSelectedStt("whisper-turbo");
@@ -2405,9 +2405,9 @@ ${codeRef.current}
                           onChange={(e) => setSelectedModel(e.target.value)}
                           className="bg-zinc-950 text-zinc-100 text-xs rounded-xl p-3 border border-zinc-900 focus:border-zinc-700 focus:ring-1 focus:ring-zinc-800 outline-none cursor-pointer hover:bg-zinc-900 transition-all font-semibold"
                         >
-                          <option value="llama-3.1-8b-instant">Llama 3.1 8B (Free)</option>
-                          <option value="llama-3.3-70b-versatile" disabled={userTier === "freemium"}>
-                            Llama 3.3 70B {userTier === "freemium" ? "(Premium Only)" : "(Pro)"}
+                          <option value="openai/gpt-oss-20b">GPT-OSS 20B (Free)</option>
+                          <option value="openai/gpt-oss-120b" disabled={userTier === "freemium"}>
+                            GPT-OSS 120B {userTier === "freemium" ? "(Premium Only)" : "(Pro)"}
                           </option>
                         </select>
                         <span className="text-[9px] text-emerald-500/80 font-medium leading-tight mt-1">

@@ -2,6 +2,18 @@
 
 Mockrithm is a proprietary, enterprise-grade mock interview and interactive learning simulator. It is built to offer a sleek, premium experience for assessment, dynamic coding sandbox execution, and structured evaluation.
 
+🌐 **Website**: [https://mockrithm.me](https://mockrithm.me)
+
+---
+
+## 🎬 Product Overview & Demo
+
+[![Watch the Mockrithm Launch Video](./brag-output/brag.jpg)](./brag-output/brag.mp4)
+
+> 📹 **[Watch the 20s Launch Video (1080p 60fps)](./brag-output/brag.mp4)**: Experience real-time conversational AI voice telemetry, live code execution, and interview readiness analytics in action.
+
+---
+
 **Note: This is a commercial product. The source code, prompts, assets, and design systems are proprietary and protected under copyright law.**
 
 ---

@@ -21,7 +21,7 @@ export async function GET() {
     });
 
     if (response.ok) {
-      return NextResponse.json({ status: "connected", model: process.env.GROQ_LLM_MODEL || "llama-3.3-70b-versatile" });
+      return NextResponse.json({ status: "connected", model: process.env.GROQ_LLM_MODEL || "openai/gpt-oss-120b" });
     } else {
       const data = await response.text();
       let errMsg = "API key invalid or rejected";

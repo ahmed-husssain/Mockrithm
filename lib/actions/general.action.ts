@@ -18,7 +18,7 @@ async function groqGenerateObject(prompt: string) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: process.env.GROQ_LLM_MODEL || "llama-3.3-70b-versatile",
+      model: process.env.GROQ_LLM_MODEL || "openai/gpt-oss-120b",
       messages: [
         {
           role: "system",
